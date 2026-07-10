@@ -7,11 +7,7 @@ import { isOfficialMetaBaseUrl } from '../endpoint';
 import { t } from '../i18n';
 import type { MetaRequest } from '../types';
 import { convertMessages, countMessageChars } from './convert';
-import {
-	dumpDeepSeekRequest,
-	type CacheDiagnosticsRecorder,
-	type CacheDiagnosticsRun,
-} from './debug';
+import { dumpMetaRequest, type CacheDiagnosticsRecorder, type CacheDiagnosticsRun } from './debug';
 import { getConfiguredThinkingEffort, type ModelConfigurationOptions } from './models';
 import { classifyMetaRequest, shouldForceMinimalThinking, type RequestKind } from './routing';
 import type { ReplayMarkerMetadata } from './replay';
@@ -100,7 +96,7 @@ export async function prepareChatRequest({
 				}
 			: {}),
 	};
-	dumpDeepSeekRequest(request, {
+	dumpMetaRequest(request, {
 		globalStorageUri,
 		segment,
 		requestKind,

@@ -13,7 +13,6 @@ import type {
 	RequestErrorContext,
 } from '../types';
 export type { MetaRequestErrorKind, ErrorActionUrls } from '../types';
-export type DeepSeekRequestErrorKind = MetaRequestErrorKind;
 
 const errorActionUrlStore = (() => {
 	let current: ErrorActionUrls = {};
@@ -58,8 +57,6 @@ export class MetaRequestError extends Error {
 		this.code = options.code;
 	}
 }
-
-export const DeepSeekRequestError = MetaRequestError;
 
 export async function createHttpError(
 	response: Response,
@@ -164,7 +161,12 @@ export function createUserFacingError(error: Error): Error {
 	return displayError;
 }
 
-function getHttpErrorMessage(status: number, serverCode: string | undefined, serverMessage: string | undefined, createApiKeyUrl?: string): string {
+function getHttpErrorMessage(
+	status: number,
+	serverCode: string | undefined,
+	serverMessage: string | undefined,
+	createApiKeyUrl?: string,
+): string {
 	if (status === 400 && serverCode === 'content_policy_violation') {
 		return t('error.http.400.contentPolicy', serverMessage || 'Content policy violation');
 	}
@@ -187,7 +189,9 @@ function getHttpErrorMessage(status: number, serverCode: string | undefined, ser
 		case 500:
 			return t('error.http.500', status);
 		case 503:
-			return serverCode === 'server_shutting_down' ? t('error.http.503.shuttingDown', status) : t('error.http.503', status);
+			return serverCode === 'server_shutting_down'
+				? t('error.http.503.shuttingDown', status)
+				: t('error.http.503', status);
 		case 504:
 			return t('error.http.504', status);
 		default:
@@ -309,7 +313,10 @@ function getRequestDiagnosticMessage(context: RequestErrorContext): string {
 	const { request } = context;
 	const contentChars = request.messages.reduce((total, message) => {
 		if (typeof message.content === 'string') return total + message.content.length;
-		return total + message.content.reduce((s, p) => s + (p.type === 'text' ? (p.text?.length ?? 0) : 0), 0);
+		return (
+			total +
+			message.content.reduce((s, p) => s + (p.type === 'text' ? (p.text?.length ?? 0) : 0), 0)
+		);
 	}, 0);
 	return joinDiagnosticParts(
 		`baseUrl=${safeStringify(context.baseUrl)}`,
@@ -317,7 +324,9 @@ function getRequestDiagnosticMessage(context: RequestErrorContext): string {
 		`stream=${request.stream}`,
 		request.temperature !== undefined ? `temperature=${request.temperature}` : undefined,
 		request.top_p !== undefined ? `topP=${request.top_p}` : undefined,
-		request.max_completion_tokens !== undefined ? `maxCompletionTokens=${request.max_completion_tokens}` : undefined,
+		request.max_completion_tokens !== undefined
+			? `maxCompletionTokens=${request.max_completion_tokens}`
+			: undefined,
 		request.max_tokens !== undefined ? `maxTokens=${request.max_tokens}` : undefined,
 		request.reasoning_effort
 			? `reasoningEffort=${safeStringify(request.reasoning_effort)}`

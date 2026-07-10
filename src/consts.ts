@@ -19,7 +19,7 @@ export const LANGUAGE_MODEL_CHAT_SYSTEM_ROLE = 3;
 
 export const API_KEY_SECRET = 'meta-spark.apiKey';
 export const WELCOME_SHOWN_KEY = 'meta-spark.welcomeShown';
-export const WALKTHROUGH_ID = 'Vizards.meta-spark-for-copilot#metaGettingStarted';
+export const WALKTHROUGH_ID = 'lukespine.meta-spark-for-copilot#metaGettingStarted';
 
 export const MODELS: ModelDefinition[] = [
 	{

@@ -1,10 +1,9 @@
-export { MetaClient, DeepSeekClient } from './core';
+export { MetaClient } from './core';
 export {
 	createHttpError,
 	createUserFacingError,
 	MetaRequestError,
-	DeepSeekRequestError,
 	normalizeRequestError,
 	setErrorActionUrl,
 } from './error';
-export type { MetaRequestErrorKind, DeepSeekRequestErrorKind, ErrorActionUrls } from './types';
+export type { MetaRequestErrorKind, ErrorActionUrls } from './types';

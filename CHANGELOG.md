@@ -1,14 +1,16 @@
 # Changelog
 
-## 0.1.0 - Initial Meta Spark release
+## 0.6.2
 
-- Port from deepseek-v4-for-copilot to meta-spark-for-copilot
-- Vendor: deepseek -> meta
-- Model: muse-spark-1.1, 1M context, 131k output, native vision
-- Auth: LLM|... format
-- Base URL: https://api.meta.ai/v1
-- Reasoning effort: minimal/low/medium/high/xhigh (none not supported)
-- Tool choice: only auto
-- Native vision: base64 data URLs, no proxy
-- Pricing: USD only $1.25/$0.15/$4.25
-- Error handling for 401, 429, 400 content_policy_violation, 503, 504
+### Features
+
+- Muse Spark 1.1 in the Copilot Chat model picker
+- Native vision via base64 `image_url` content parts
+- Reasoning effort control: `minimal`, `low`, `medium`, `high`, `xhigh`
+- Agent tools, BYOK Meta API key storage, and request diagnostics
+
+### Notes
+
+- Ported from the DeepSeek V4 for Copilot architecture to Meta Muse Spark 1.1
+- Marketplace publisher: `lukespine`
+- Repository: `spinespine/meta-spark-for-copilot`

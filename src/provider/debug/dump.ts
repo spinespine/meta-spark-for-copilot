@@ -20,8 +20,15 @@ import type { ConversationSegment } from '../segment';
 import { ACTIVATE_TOOL_PREFIX } from '../tools/consts';
 import type { VisionProxySource, VisionResolutionStats } from '../vision';
 
-function getMetaContentLength(msg: any): number { if (typeof msg.content === 'string') return msg.content.length; return (msg.content as any[]).reduce((s: number, p: any) => s + (p.type === 'text' ? (p.text?.length ?? 0) : 1000), 0); }
-function getMetaContentString(msg: MetaMessage): string { if (typeof msg.content === 'string') return msg.content; return (msg.content as any[]).filter((p: any) => p.type === 'text').map((p: any) => (p as any).text).join(''); }
+function getMetaContentString(msg: MetaMessage): string {
+	if (typeof msg.content === 'string') {
+		return msg.content;
+	}
+	return (msg.content as any[])
+		.filter((p: any) => p.type === 'text')
+		.map((p: any) => (p as any).text)
+		.join('');
+}
 
 let dumpCounter = 0;
 let providerInputDumpCounter = 0;
@@ -171,9 +178,9 @@ export function dumpProviderInput(options: DumpProviderInputOptions): void {
 }
 
 /**
- * Dump the FULL DeepSeek request payload (messages + tools) to disk verbatim
+ * Dump the FULL Meta request payload (messages + tools) to disk verbatim
  * when debugMode is `verbose`. No truncation, no hashing - you get the
- * exact JSON that will be sent to the DeepSeek API (minus the auth header).
+ * exact JSON that will be sent to the Meta API (minus the auth header).
  *
  * Files land under `<dump root>/<conversationSegmentId>/` so marker replay and
  * cache-lineage changes are easy to inspect across provider calls:
@@ -182,10 +189,7 @@ export function dumpProviderInput(options: DumpProviderInputOptions): void {
  *   meta-request-<timestamp>-NNNN.json           — full request body
  *   meta-request-<timestamp>-NNNN.msg0.txt       — messages[0] content (system prompt)
  */
-export function dumpMetaRequest(
-	request: MetaRequest,
-	options: DumpMetaRequestOptions,
-): void {
+export function dumpMetaRequest(request: MetaRequest, options: DumpMetaRequestOptions): void {
 	if (!getRequestDumpEnabled()) return;
 
 	const requestKind =
@@ -471,10 +475,7 @@ type SerializedContentPart =
 			valueHash: string;
 	  };
 
-function serializeMessage(
-	message: any,
-	index: number,
-): SerializedMessage {
+function serializeMessage(message: any, index: number): SerializedMessage {
 	const contentParts = (getMetaContentString(message) as any).map((part: any, partIndex: number) =>
 		serializeContentPart(part, partIndex),
 	);
@@ -483,8 +484,14 @@ function serializeMessage(
 		role: formatRole(message.role),
 		name: message.name,
 		contentPartCount: contentParts.length,
-		contentTextChars: contentParts.reduce((sum: number, part: any) => sum + getContentPartTextChars(part), 0),
-		contentDataBytes: contentParts.reduce((sum: number, part: any) => sum + getContentPartDataBytes(part), 0),
+		contentTextChars: contentParts.reduce(
+			(sum: number, part: any) => sum + getContentPartTextChars(part),
+			0,
+		),
+		contentDataBytes: contentParts.reduce(
+			(sum: number, part: any) => sum + getContentPartDataBytes(part),
+			0,
+		),
 		contentParts,
 	};
 }
@@ -675,7 +682,12 @@ function summarizeMetaSystemPrompt(messages: readonly any[]): SystemPromptSummar
 		return createSystemPromptSummary(null, null, '', customizations);
 	}
 
-	return createSystemPromptSummary(0, message.role, getMetaContentString(message) ?? '', customizations);
+	return createSystemPromptSummary(
+		0,
+		message.role,
+		getMetaContentString(message) ?? '',
+		customizations,
+	);
 }
 
 function createSystemPromptSummary(
@@ -724,9 +736,7 @@ function summarizeVscodeCustomizations(
 	};
 }
 
-function summarizeMetaCustomizations(
-	messages: readonly MetaMessage[],
-): CustomizationsSummary {
+function summarizeMetaCustomizations(messages: readonly MetaMessage[]): CustomizationsSummary {
 	let customizationsUpdateCountInHistory = 0;
 	let latestUserMessageIndex: number | null = null;
 	let latestUserHasCustomizationsUpdate = false;
@@ -1101,8 +1111,3 @@ function getRequestDumpBaseRootUri(globalStorageUri: vscode.Uri): vscode.Uri {
 
 	return vscode.Uri.file(join(tmpdir(), 'meta-request-dumps'));
 }
-
-
-export const dumpDeepSeekRequest = dumpMetaRequest;
-export type DumpDeepSeekRequestOptions = DumpMetaRequestOptions;
-export const classifyDeepSeekRequest = classifyMetaRequest;

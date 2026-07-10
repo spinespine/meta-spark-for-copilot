@@ -7,10 +7,6 @@ import type {
 	MetaToolCall,
 	MetaUsage,
 	StreamCallbacks,
-	DeepSeekRequest,
-	DeepSeekStreamChunk,
-	DeepSeekToolCall,
-	DeepSeekUsage,
 } from '../types';
 import { createHttpError, formatRequestError, normalizeRequestError } from './error';
 
@@ -171,8 +167,6 @@ export class MetaClient {
 		}
 	}
 }
-
-export const DeepSeekClient = MetaClient;
 
 function reportFinalUsage(callbacks: StreamCallbacks, usage: MetaUsage | undefined): void {
 	if (!usage || !callbacks.onUsage) {

@@ -29,6 +29,6 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: deepseek-v4-for-copilot.vsix
+          name: meta-spark-for-copilot.vsix
           path: dist/*.vsix
           retention-days: 30

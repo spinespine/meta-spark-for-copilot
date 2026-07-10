@@ -142,7 +142,9 @@ function normalizeThinkingPartText(value: string | string[]): string {
 	return Array.isArray(value) ? value.join('') : value;
 }
 
-function mapRole(role: vscode.LanguageModelChatMessageRole): 'user' | 'assistant' | 'developer' | 'system' {
+function mapRole(
+	role: vscode.LanguageModelChatMessageRole,
+): 'user' | 'assistant' | 'developer' | 'system' {
 	switch (role) {
 		case vscode.LanguageModelChatMessageRole.User:
 			return 'user';

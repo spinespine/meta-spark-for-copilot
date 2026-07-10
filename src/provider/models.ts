@@ -59,7 +59,13 @@ export function getConfiguredThinkingEffort(options: ModelConfigurationOptions):
 		if (normalized === 'low') return 'low';
 		if (normalized === 'medium') return 'medium';
 		if (normalized === 'high') return 'high';
-		if (normalized === 'xhigh' || normalized === 'max' || normalized === 'extra-high' || normalized === 'extra_high') return 'xhigh';
+		if (
+			normalized === 'xhigh' ||
+			normalized === 'max' ||
+			normalized === 'extra-high' ||
+			normalized === 'extra_high'
+		)
+			return 'xhigh';
 	}
 
 	return 'medium';
@@ -72,7 +78,13 @@ function buildThinkingEffortSchema() {
 				type: 'string',
 				title: t('status.thinking'),
 				enum: ['minimal', 'low', 'medium', 'high', 'xhigh'],
-				enumItemLabels: [t('thinking.minimal'), t('thinking.low'), t('thinking.medium'), t('thinking.high'), t('thinking.xhigh')],
+				enumItemLabels: [
+					t('thinking.minimal'),
+					t('thinking.low'),
+					t('thinking.medium'),
+					t('thinking.high'),
+					t('thinking.xhigh'),
+				],
 				enumDescriptions: [
 					t('thinking.minimal.desc'),
 					t('thinking.low.desc'),

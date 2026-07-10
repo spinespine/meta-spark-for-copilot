@@ -50,7 +50,7 @@ export interface MetaUsage {
 	completion_tokens_details?: {
 		reasoning_tokens?: number;
 	};
-	// legacy DeepSeek fields for compatibility in diagnostics
+	// legacy cache fields retained for diagnostics compatibility
 	prompt_cache_hit_tokens?: number;
 	prompt_cache_miss_tokens?: number;
 }
@@ -99,14 +99,6 @@ export interface MetaStreamChunk {
 	}>;
 	usage?: MetaUsage;
 }
-
-// Keep DeepSeek names as aliases for minimal diff in other files
-export type DeepSeekMessage = MetaMessage;
-export type DeepSeekToolCall = MetaToolCall;
-export type DeepSeekTool = MetaTool;
-export type DeepSeekUsage = MetaUsage;
-export type DeepSeekRequest = MetaRequest;
-export type DeepSeekStreamChunk = MetaStreamChunk;
 
 export interface StreamCallbacks {
 	onContent: (content: string) => void;

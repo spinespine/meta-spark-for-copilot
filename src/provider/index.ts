@@ -181,8 +181,6 @@ export class MetaChatProvider implements vscode.LanguageModelChatProvider {
 	}
 }
 
-export const DeepSeekChatProvider = MetaChatProvider;
-
 function joinInitialResponseNotices(...notices: (string | undefined)[]): string | undefined {
 	const joined = notices.filter((notice) => notice && notice.trim().length > 0).join('\n');
 	return joined || undefined;

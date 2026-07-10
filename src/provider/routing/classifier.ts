@@ -70,7 +70,7 @@ export function classifyProviderRequest(input: {
 	});
 }
 
-export function classifyDeepSeekRequest(input: {
+export function classifyMetaRequest(input: {
 	request: { messages: MetaMessage[]; tools?: MetaTool[] };
 	inputMessages?: readonly vscode.LanguageModelChatRequestMessage[];
 }): RequestKind {
@@ -84,8 +84,6 @@ export function classifyDeepSeekRequest(input: {
 		toolNames: input.request.tools?.map(getMetaToolName) ?? [],
 	});
 }
-
-export const classifyMetaRequest = classifyDeepSeekRequest;
 
 function classifyRequest(input: {
 	firstText: string;
@@ -186,7 +184,10 @@ function getFirstMetaText(messages: MetaMessage[]): string {
 	const first = messages[0];
 	if (!first) return '';
 	if (typeof first.content === 'string') return first.content;
-	return first.content.filter(p => p.type === 'text').map(p => (p as any).text).join('');
+	return first.content
+		.filter((p) => p.type === 'text')
+		.map((p) => (p as any).text)
+		.join('');
 }
 
 function getLatestMetaUserText(messages: MetaMessage[]): string {
@@ -194,7 +195,10 @@ function getLatestMetaUserText(messages: MetaMessage[]): string {
 		const message = messages[index];
 		if (message.role === 'user') {
 			if (typeof message.content === 'string') return message.content;
-			return message.content.filter(p => p.type === 'text').map(p => (p as any).text).join('');
+			return message.content
+				.filter((p) => p.type === 'text')
+				.map((p) => (p as any).text)
+				.join('');
 		}
 	}
 	return '';

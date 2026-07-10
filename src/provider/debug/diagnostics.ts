@@ -3,7 +3,7 @@ import vscode from 'vscode';
 import { getDebugLoggingEnabled } from '../../config';
 import { LANGUAGE_MODEL_CHAT_SYSTEM_ROLE } from '../../consts';
 import { logger } from '../../logger';
-import type { MetaMessage, MetaRequest, MetaTool, MetaUsage } from '../../types';
+import type { MetaMessage, MetaRequest, MetaUsage } from '../../types';
 import {
 	classifyMetaRequest,
 	formatModelFields,
@@ -17,24 +17,28 @@ import type { ActivatePreflightInspection } from '../tools/preflight';
 import { IMAGE_DESCRIPTION_UNAVAILABLE } from '../vision/consts';
 import type { VisionProxySource, VisionResolutionStats as VisionPipelineStats } from '../vision';
 
-
 function getMetaContentString(msg: any): string {
-  if (!msg || !msg.content) return '';
-  if (typeof msg.content === 'string') return msg.content;
-  if (Array.isArray(msg.content)) {
-    // MetaMessage: array of {type:text, text} or {type:image_url}
-    // VSCode message: array of LanguageModelTextPart etc - handle via .value
-    const parts = msg.content as any[];
-    // Check if it's MetaMessageContentPart
-    if (parts.length > 0 && parts[0] && typeof parts[0] === 'object' && 'type' in parts[0]) {
-      return parts.filter((p: any) => p.type === 'text').map((p: any) => p.text).join('');
-    }
-    // VSCode message: LanguageModelTextPart has .value
-    return parts.map((p: any) => p.value || '').join('');
-  }
-  return '';
+	if (!msg || !msg.content) return '';
+	if (typeof msg.content === 'string') return msg.content;
+	if (Array.isArray(msg.content)) {
+		// MetaMessage: array of {type:text, text} or {type:image_url}
+		// VSCode message: array of LanguageModelTextPart etc - handle via .value
+		const parts = msg.content as any[];
+		// Check if it's MetaMessageContentPart
+		if (parts.length > 0 && parts[0] && typeof parts[0] === 'object' && 'type' in parts[0]) {
+			return parts
+				.filter((p: any) => p.type === 'text')
+				.map((p: any) => p.text)
+				.join('');
+		}
+		// VSCode message: LanguageModelTextPart has .value
+		return parts.map((p: any) => p.value || '').join('');
+	}
+	return '';
 }
-function getMetaContentLength(msg: any): number { return getMetaContentString(msg).length; }
+function getMetaContentLength(msg: any): number {
+	return getMetaContentString(msg).length;
+}
 
 const LARGE_MESSAGE_CHARS = 10_000;
 const HASH_WINDOW_CHARS = 2_048;
@@ -425,7 +429,7 @@ class DefaultCacheDiagnosticsRecorder implements CacheDiagnosticsRecorder {
 					` thinkingEffort=${options.thinkingEffort}` +
 					` maxTokens=${options.maxTokens ?? 'api-default'}` +
 					` inputMessages=${options.inputMessages.length}` +
-					` deepseekMessages=${options.request.messages.length}`,
+					` metaMessages=${options.request.messages.length}`,
 			),
 		);
 		const hostPromptTrace = summarizeHostPromptTrace(options.inputMessages);
@@ -900,7 +904,7 @@ function summarizeVisionResolution(
 }
 
 function countImageDataParts(message: vscode.LanguageModelChatRequestMessage): number {
-    return ((message.content as any) as any[]).filter((part) => isImageDataPart(part)).length;
+	return (message.content as any as any[]).filter((part) => isImageDataPart(part)).length;
 }
 
 function isImageDataPart(part: unknown): part is vscode.LanguageModelDataPart {
@@ -909,7 +913,7 @@ function isImageDataPart(part: unknown): part is vscode.LanguageModelDataPart {
 
 function getMessageText(message: vscode.LanguageModelChatRequestMessage): string {
 	let text = '';
-	for (const part of (message.content as any)) {
+	for (const part of message.content as any) {
 		if (part instanceof vscode.LanguageModelTextPart) {
 			text += part.value;
 		}
@@ -1114,7 +1118,7 @@ function summarizeInputAssistantMessages(
 		let thinkingChars = 0;
 		let replayMarkerParts = 0;
 
-		for (const part of (message.content as any)) {
+		for (const part of message.content as any) {
 			if (part instanceof vscode.LanguageModelTextPart) {
 				textChars += part.value.length;
 			} else if (part instanceof vscode.LanguageModelToolCallPart) {
@@ -1408,7 +1412,7 @@ export function getCacheTraceWarnings(snapshot: CacheTraceSnapshot): string[] {
 	}
 	if (snapshot.stats.missingToolReasoningMessages > 0) {
 		warnings.push(
-			`${snapshot.stats.missingToolReasoningMessages} assistant tool-call message(s) are missing marker-replayed reasoning_content; DeepSeek requires this in thinking tool-call histories and cache prefixes may drift.`,
+			`${snapshot.stats.missingToolReasoningMessages} assistant tool-call message(s) are missing marker-replayed reasoning_content; thinking tool-call histories may drift cache prefixes without it.`,
 		);
 	}
 	if (snapshot.stats.missingPostToolCallReasoningMessages > 0) {
@@ -1630,21 +1634,21 @@ function summarizeMessage(
 		: ('none' as const);
 	const hasReasoningContent = message.reasoning_content !== undefined;
 	const hasEmptyReasoningContent = hasReasoningContent && reasoningChars === 0;
-	const imageDescriptionCount = countLiteral((message.content as any), '[Image Description:');
-	const unableImageCount = countLiteral((message.content as any), IMAGE_DESCRIPTION_UNAVAILABLE);
-	const urlCount = countRegex((message.content as any), /https?:\/\//g);
-	const codeFenceCount = countLiteral((message.content as any), '```');
-	const likelyPathCount = countLikelyPaths((message.content as any));
+	const imageDescriptionCount = countLiteral(message.content as any, '[Image Description:');
+	const unableImageCount = countLiteral(message.content as any, IMAGE_DESCRIPTION_UNAVAILABLE);
+	const urlCount = countRegex(message.content as any, /https?:\/\//g);
+	const codeFenceCount = countLiteral(message.content as any, '```');
+	const likelyPathCount = countLikelyPaths(message.content as any);
 
 	return {
 		index,
 		role: message.role,
 		hash: hashString(stableStringify(message)),
-		contentHash: hashString((message.content as any)),
+		contentHash: hashString(message.content as any),
 		contentHeadHash: hashString((message.content as any).slice(0, HASH_WINDOW_CHARS)),
 		contentTailHash: hashString((message.content as any).slice(-HASH_WINDOW_CHARS)),
 		contentChars: getMetaContentLength(message),
-		contentLines: countLines((message.content as any)),
+		contentLines: countLines(message.content as any),
 		imageDescriptionCount,
 		unableImageCount,
 		urlCount,
@@ -1660,7 +1664,8 @@ function summarizeMessage(
 		missingPostToolReasoning: assistantAfterToolResult && !hasReasoningContent,
 		missingPostToolCallReasoning: afterToolResultKind === 'tool-call' && !hasReasoningContent,
 		missingPostToolFinalReasoning: afterToolResultKind === 'final' && !hasReasoningContent,
-		contentSections: index === 0 ? summarizeSystemPromptSections((message.content as any)) : undefined,
+		contentSections:
+			index === 0 ? summarizeSystemPromptSections(message.content as any) : undefined,
 	};
 }
 
@@ -1841,7 +1846,7 @@ function summarizeStats(messages: any[], toolCount: number): CacheTraceStats {
 			largeMessages += 1;
 		}
 
-		const imageDescriptions = countLiteral((message.content as any), '[Image Description:');
+		const imageDescriptions = countLiteral(message.content as any, '[Image Description:');
 		if (imageDescriptions > 0) {
 			imageDescriptionMessages += 1;
 			imageDescriptionParts += imageDescriptions;
@@ -1850,19 +1855,19 @@ function summarizeStats(messages: any[], toolCount: number): CacheTraceStats {
 			unableImageMessages += 1;
 		}
 
-		const messageUrlCount = countRegex((message.content as any), /https?:\/\//g);
+		const messageUrlCount = countRegex(message.content as any, /https?:\/\//g);
 		if (messageUrlCount > 0) {
 			urlMessages += 1;
 			urlCount += messageUrlCount;
 		}
 
-		const messageCodeFenceCount = countLiteral((message.content as any), '```');
+		const messageCodeFenceCount = countLiteral(message.content as any, '```');
 		if (messageCodeFenceCount > 0) {
 			codeFenceMessages += 1;
 			codeFenceCount += messageCodeFenceCount;
 		}
 
-		const messageLikelyPathCount = countLikelyPaths((message.content as any));
+		const messageLikelyPathCount = countLikelyPaths(message.content as any);
 		if (messageLikelyPathCount > 0) {
 			likelyPathMessages += 1;
 			likelyPathCount += messageLikelyPathCount;

@@ -24,7 +24,6 @@ export type ApiProviderId = 'meta';
 export type HttpErrorLinkStatusKey = 401 | 402 | '5xx';
 
 export type MetaRequestErrorKind = 'http' | 'network' | 'unknown';
-export type DeepSeekRequestErrorKind = MetaRequestErrorKind;
 
 export type NetworkErrorCategory =
 	| 'dns'

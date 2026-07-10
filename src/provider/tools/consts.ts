@@ -1,5 +1,4 @@
 export const META_TOOLS_LIMIT = 128;
-export const DEEPSEEK_TOOLS_LIMIT = 128;
 
 export const ACTIVATE_TOOL_PREFIX = 'activate_';
 export const PREFLIGHT_ACTIVATE_CALL_ID_PREFIX = 'meta_preflight_activate_';

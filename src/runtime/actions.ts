@@ -1,13 +1,8 @@
 import vscode from 'vscode';
 import { setErrorActionUrl, type ErrorActionUrls } from '../client';
-import {
-	CONFIGURE_API_KEY_URI_PATH,
-	SHOW_LOGS_URI_PATH,
-} from '../consts';
+import { CONFIGURE_API_KEY_URI_PATH, SHOW_LOGS_URI_PATH } from '../consts';
 import { logger } from '../logger';
-import {
-	setProviderNoticeShowLogsUrl,
-} from '../provider/tools/notices';
+import { setProviderNoticeShowLogsUrl } from '../provider/tools/notices';
 
 interface ActionUrlDefinition {
 	key?: keyof ErrorActionUrls;

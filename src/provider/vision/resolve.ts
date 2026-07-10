@@ -47,7 +47,9 @@ function collectInputImageStats(
 function getImageParts(
 	message: vscode.LanguageModelChatRequestMessage,
 ): vscode.LanguageModelDataPart[] {
-	return (message.content as readonly vscode.LanguageModelInputPart[]).filter(isImageDataPart) as any;
+	return (message.content as readonly vscode.LanguageModelInputPart[]).filter(
+		isImageDataPart,
+	) as any;
 }
 
 function isImageDataPart(part: unknown): part is vscode.LanguageModelDataPart {

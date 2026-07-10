@@ -31,6 +31,6 @@ export function toModelCostInfo(
 	};
 }
 
-function formatPriceValue(value: number, currency: PricingCurrency): string {
+function formatPriceValue(value: number, _currency: PricingCurrency): string {
 	return `$${value}`;
 }

@@ -1,8 +1,6 @@
 import vscode from 'vscode';
 import type { PricingCurrency } from '../../types';
 
-const CACHE_KEY = 'meta-spark-copilot.balanceCurrency.cache';
-
 export class BalanceCurrencyResolver {
 	constructor(
 		private readonly _context: vscode.ExtensionContext,

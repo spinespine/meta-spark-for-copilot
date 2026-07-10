@@ -6,7 +6,9 @@ import {
 	VISION_PROXY_NOTICE_END,
 	VISION_PROXY_NOTICE_START,
 } from './consts';
-function formatVisionProxyDisplayMessage(code: string, msg: string): string { return `${code}: ${msg}`; }
+function formatVisionProxyDisplayMessage(code: string, msg: string): string {
+	return `${code}: ${msg}`;
+}
 
 type LanguageModelChatRequestMessagePart =
 	vscode.LanguageModelChatRequestMessage['content'][number];
