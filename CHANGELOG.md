@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.0
+
+### Features
+
+- Muse Spark 1.1 in the Copilot Chat model picker
+- Native vision via base64 `image_url` content parts
+- Reasoning effort control: `minimal`, `low`, `medium`, `high`, `xhigh`
+- Agent tools, BYOK Meta API key storage, and request diagnostics
+
+### Notes
+
+- First stable Marketplace release
+- Marketplace publisher: `LukeSpine`
+- Repository: `spinespine/meta-spark-for-copilot`
+
 ## 0.6.2
 
 ### Features
