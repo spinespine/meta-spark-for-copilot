@@ -1,0 +1,199 @@
+{
+  "name": "meta-spark-for-copilot",
+  "displayName": "Muse Spark 1.1 for Copilot Chat",
+  "description": "Pick Muse Spark 1.1 from Copilot Chat model picker. Native vision, reasoning effort, agent tools \u2014 BYOK.",
+  "icon": "resources/icon.png",
+  "version": "0.6.2",
+  "publisher": "LukeSpine",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/spinespine/meta-spark-for-copilot"
+  },
+  "engines": {
+    "vscode": "^1.116.0",
+    "node": ">=24"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "meta",
+    "llama",
+    "muse",
+    "spark",
+    "copilot",
+    "github copilot",
+    "copilot chat",
+    "vision",
+    "byok",
+    "language model",
+    "thinking",
+    "reasoning",
+    "ai",
+    "chat"
+  ],
+  "activationEvents": [
+    "onUri",
+    "onStartupFinished"
+  ],
+  "enabledApiProposals": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languageModelChatProviders": [
+      {
+        "vendor": "meta",
+        "displayName": "Meta"
+      }
+    ],
+    "commands": [
+      {
+        "command": "meta-spark.setApiKey",
+        "title": "%meta-spark.command.setApiKey%"
+      },
+      {
+        "command": "meta-spark.getApiKey",
+        "title": "%meta-spark.command.getApiKey%"
+      },
+      {
+        "command": "meta-spark.clearApiKey",
+        "title": "%meta-spark.command.clearApiKey%"
+      },
+      {
+        "command": "meta-spark.openSettings",
+        "title": "%meta-spark.command.openSettings%"
+      },
+      {
+        "command": "meta-spark.showLogs",
+        "title": "%meta-spark.command.showLogs%"
+      },
+      {
+        "command": "meta-spark.openRequestDumpsFolder",
+        "title": "%meta-spark.command.openRequestDumpsFolder%"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "metaGettingStarted",
+        "title": "%meta-spark.walkthrough.title%",
+        "description": "%meta-spark.walkthrough.description%",
+        "steps": [
+          {
+            "id": "setApiKey",
+            "title": "%meta-spark.walkthrough.setApiKey.title%",
+            "description": "%meta-spark.walkthrough.setApiKey.description%",
+            "media": {
+              "markdown": "resources/walkthrough/set-api-key.md"
+            },
+            "completionEvents": [
+              "onCommand:meta-spark.setApiKey"
+            ]
+          },
+          {
+            "id": "showModels",
+            "title": "%meta-spark.walkthrough.showModels.title%",
+            "description": "%meta-spark.walkthrough.showModels.description%",
+            "media": {
+              "markdown": "resources/walkthrough/show-models.md"
+            }
+          },
+          {
+            "id": "advancedSettings",
+            "title": "%meta-spark.walkthrough.advancedSettings.title%",
+            "description": "%meta-spark.walkthrough.advancedSettings.description%",
+            "media": {
+              "markdown": "resources/walkthrough/advanced-settings.md"
+            }
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "%meta-spark.config.title%",
+      "properties": {
+        "meta-spark-copilot.baseUrl": {
+          "type": "string",
+          "default": "https://api.meta.ai/v1",
+          "description": "%meta-spark.config.baseUrl.description%"
+        },
+        "meta-spark-copilot.maxCompletionTokens": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "%meta-spark.config.maxCompletionTokens.description%"
+        },
+        "meta-spark-copilot.maxTokens": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "description": "%meta-spark.config.maxTokens.deprecated%",
+          "deprecationMessage": "Use meta-spark-copilot.maxCompletionTokens"
+        },
+        "meta-spark-copilot.experimental.stabilizeToolList": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%meta-spark.config.experimental.stabilizeToolList.description%",
+          "tags": [
+            "experimental"
+          ]
+        },
+        "meta-spark-copilot.modelIdOverrides": {
+          "type": "object",
+          "default": {
+            "muse-spark-1.1": "muse-spark-1.1"
+          },
+          "description": "%meta-spark.config.modelIdOverrides.description%",
+          "additionalProperties": false,
+          "properties": {
+            "muse-spark-1.1": {
+              "type": "string",
+              "description": "%meta-spark.config.modelIdOverrides.muse-spark-1.1.description%"
+            }
+          }
+        },
+        "meta-spark-copilot.debugMode": {
+          "type": "string",
+          "default": "minimal",
+          "enum": [
+            "minimal",
+            "metadata",
+            "verbose"
+          ],
+          "enumItemLabels": [
+            "%meta-spark.config.debugMode.minimal.label%",
+            "%meta-spark.config.debugMode.metadata.label%",
+            "%meta-spark.config.debugMode.verbose.label%"
+          ],
+          "markdownEnumDescriptions": [
+            "%meta-spark.config.debugMode.minimal.description%",
+            "%meta-spark.config.debugMode.metadata.description%",
+            "%meta-spark.config.debugMode.verbose.description%"
+          ],
+          "markdownDescription": "%meta-spark.config.debugMode.description%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('out', { recursive: true, force: true, maxRetries: process.platform === 'win32' ? 10 : 0 })\"",
+    "vscode:prepublish": "bash .github/scripts/prepare-marketplace-readme.sh && npm run compile",
+    "compile": "npm run clean && tsc -p ./",
+    "watch": "npm run clean && tsc -watch -p ./",
+    "lint": "oxlint",
+    "format": "oxfmt --write src/",
+    "format:check": "oxfmt --check src/",
+    "package": "vsce package --readme-path dist/README.marketplace.md -o dist/",
+    "login": "vsce login Vizards"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@types/vscode": "^1.116.0",
+    "@vscode/vsce": "^3.9.1",
+    "ovsx": "0.10.12",
+    "oxfmt": "^0.47.0",
+    "oxlint": "^1.62.0",
+    "typescript": "^6.0.3"
+  }
+}
