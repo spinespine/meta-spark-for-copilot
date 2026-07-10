@@ -2,11 +2,11 @@ import type { CancellationToken } from 'vscode';
 import { safeStringify } from '../json';
 import { logger } from '../logger';
 import type {
-	MetaRequest,
-	MetaStreamChunk,
-	MetaToolCall,
-	MetaUsage,
-	StreamCallbacks,
+    MetaRequest,
+    MetaStreamChunk,
+    MetaToolCall,
+    MetaUsage,
+    StreamCallbacks,
 } from '../types';
 import { createHttpError, formatRequestError, normalizeRequestError } from './error';
 

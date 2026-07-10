@@ -12,5 +12,5 @@
 ### Notes
 
 - Ported from the DeepSeek V4 for Copilot architecture to Meta Muse Spark 1.1
-- Marketplace publisher: `lukespine`
+- Marketplace publisher: `LukeSpine`
 - Repository: `spinespine/meta-spark-for-copilot`

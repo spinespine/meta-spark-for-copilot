@@ -2,8 +2,8 @@
 
 <p align="center">
   <!-- marketplace-readme:remove-start -->
-  <a href="https://marketplace.visualstudio.com/items?itemName=lukespine.meta-spark-for-copilot"><img src="https://img.shields.io/badge/VS%20Code%20Marketplace-Install-007ACC?logo=visualstudiocode&logoColor=white&style=for-the-badge" alt="从 VS Code Marketplace 安装"></a>
-  <a href="https://open-vsx.org/extension/lukespine/meta-spark-for-copilot"><img src="https://img.shields.io/badge/Open%20VSX-Install-6A4FB6?style=for-the-badge" alt="从 Open VSX 安装"></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=LukeSpine.meta-spark-for-copilot"><img src="https://img.shields.io/badge/VS%20Code%20Marketplace-Install-007ACC?logo=visualstudiocode&logoColor=white&style=for-the-badge" alt="从 VS Code Marketplace 安装"></a>
+  <a href="https://open-vsx.org/extension/LukeSpine/meta-spark-for-copilot"><img src="https://img.shields.io/badge/Open%20VSX-Install-6A4FB6?style=for-the-badge" alt="从 Open VSX 安装"></a>
   <br/>
   <!-- marketplace-readme:remove-end -->
   <img src="https://img.shields.io/github/v/release/spinespine/meta-spark-for-copilot?style=for-the-badge&label=Version" alt="版本" />
@@ -59,8 +59,8 @@ Agent 模式、工具调用（文件编辑、终端等）、自定义 Instructio
 
 ### 安装方式
 
-1. **Microsoft VS Code** — 从 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=lukespine.meta-spark-for-copilot) 安装
-2. **使用 Open VSX 的编辑器** — 从 [Open VSX](https://open-vsx.org/extension/lukespine/meta-spark-for-copilot) 安装
+1. **Microsoft VS Code** — 从 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=LukeSpine.meta-spark-for-copilot) 安装
+2. **使用 Open VSX 的编辑器** — 从 [Open VSX](https://open-vsx.org/extension/LukeSpine/meta-spark-for-copilot) 安装
 
 ### 使用步骤
 

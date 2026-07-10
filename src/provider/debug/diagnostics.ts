@@ -4,18 +4,18 @@ import { getDebugLoggingEnabled } from '../../config';
 import { LANGUAGE_MODEL_CHAT_SYSTEM_ROLE } from '../../consts';
 import { logger } from '../../logger';
 import type { MetaMessage, MetaRequest, MetaUsage } from '../../types';
-import {
-	classifyMetaRequest,
-	formatModelFields,
-	formatRequestLogLine,
-	type RequestKind,
-} from '../routing';
 import { REPLAY_MARKER_MIME, parseFirstReplayMarker } from '../replay';
+import {
+    classifyMetaRequest,
+    formatModelFields,
+    formatRequestLogLine,
+    type RequestKind,
+} from '../routing';
 import type { ConversationSegment } from '../segment';
 import { ACTIVATE_TOOL_PREFIX } from '../tools/consts';
 import type { ActivatePreflightInspection } from '../tools/preflight';
+import type { VisionResolutionStats as VisionPipelineStats, VisionProxySource } from '../vision';
 import { IMAGE_DESCRIPTION_UNAVAILABLE } from '../vision/consts';
-import type { VisionProxySource, VisionResolutionStats as VisionPipelineStats } from '../vision';
 
 function getMetaContentString(msg: any): string {
 	if (!msg || !msg.content) return '';

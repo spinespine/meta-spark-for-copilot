@@ -2,17 +2,17 @@ import { isOfficialMetaBaseUrl } from '../../endpoint';
 import { t } from '../../i18n';
 import { safeStringify } from '../../json';
 import { API_PROVIDER_HTTP_ERROR_LINKS, MAX_DIAGNOSTIC_FIELD_LENGTH } from '../consts';
-import { getNetworkErrorCauseInfo, getNetworkErrorCode, getNetworkErrorMessage } from './network';
 import type {
-	ApiProviderId,
-	MetaRequestErrorKind,
-	ErrorActionLink,
-	ErrorActionUrls,
-	HttpErrorLinkDefinition,
-	HttpErrorLinkStatusKey,
-	RequestErrorContext,
+    ApiProviderId,
+    ErrorActionLink,
+    ErrorActionUrls,
+    HttpErrorLinkDefinition,
+    HttpErrorLinkStatusKey,
+    MetaRequestErrorKind,
+    RequestErrorContext,
 } from '../types';
-export type { MetaRequestErrorKind, ErrorActionUrls } from '../types';
+import { getNetworkErrorCauseInfo, getNetworkErrorCode, getNetworkErrorMessage } from './network';
+export type { ErrorActionUrls, MetaRequestErrorKind } from '../types';
 
 const errorActionUrlStore = (() => {
 	let current: ErrorActionUrls = {};

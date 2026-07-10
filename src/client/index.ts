@@ -1,9 +1,10 @@
 export { MetaClient } from './core';
 export {
-	createHttpError,
-	createUserFacingError,
-	MetaRequestError,
-	normalizeRequestError,
-	setErrorActionUrl,
+    createHttpError,
+    createUserFacingError,
+    MetaRequestError,
+    normalizeRequestError,
+    setErrorActionUrl
 } from './error';
-export type { MetaRequestErrorKind, ErrorActionUrls } from './types';
+export type { ErrorActionUrls, MetaRequestErrorKind } from './types';
+

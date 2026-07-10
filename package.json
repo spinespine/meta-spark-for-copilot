@@ -4,7 +4,7 @@
   "description": "Pick Muse Spark 1.1 from Copilot Chat model picker. Native vision, reasoning effort, agent tools \u2014 BYOK.",
   "icon": "resources/icon.png",
   "version": "0.6.2",
-  "publisher": "lukespine",
+  "publisher": "LukeSpine",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -189,7 +189,7 @@
     "format": "oxfmt --write src/",
     "format:check": "oxfmt --check src/",
     "package": "vsce package --readme-path dist/README.marketplace.md -o dist/",
-    "login": "vsce login lukespine"
+    "login": "vsce login LukeSpine"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
