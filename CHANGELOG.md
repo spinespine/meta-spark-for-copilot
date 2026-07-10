@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+
+### Changes
+
+- Cleaner, more professional README for Marketplace and GitHub
+- Removed DeepSeek-era screenshots from the README
+
 ## 1.0.0
 
 ### Features

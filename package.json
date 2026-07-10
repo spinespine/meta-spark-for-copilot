@@ -3,7 +3,7 @@
   "displayName": "Muse Spark 1.1 for Copilot Chat",
   "description": "Pick Muse Spark 1.1 from Copilot Chat model picker. Native vision, reasoning effort, agent tools \u2014 BYOK.",
   "icon": "resources/icon.png",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "LukeSpine",
   "license": "MIT",
   "repository": {
